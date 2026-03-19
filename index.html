@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank - Cloud Computing Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-tint"></i>
+                    <span>BloodBank Cloud</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+                    <li><a href="#donors" class="nav-link">Donors</a></li>
+                    <li><a href="#inventory" class="nav-link">Inventory</a></li>
+                    <li><a href="#requests" class="nav-link">Requests</a></li>
+                    <li><a href="#register" class="nav-link">Register Donor</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Dashboard -->
+        <section id="dashboard" class="section active">
+            <div class="container">
+                <h1>Welcome to BloodBank Cloud</h1>
+                <p>Revolutionizing blood donation through secure cloud computing.</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <h3 id="totalDonors">0</h3>
+                        <span>Total Donors</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-tint"></i>
+                        <h3 id="totalUnits">0</h3>
+                        <span>Blood Units</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3 id="urgentRequests">0</h3>
+                        <span>Urgent Requests</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-cloud"></i>
+                        <h3>100%</h3>
+                        <span>Cloud Uptime</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donors -->
+        <section id="donors" class="section">
+            <div class="container">
+                <h2>Donor Directory</h2>
+                <div class="search-bar">
+                    <input type="text" id="donorSearch" placeholder="Search donors by name, blood group, location...">
+                    <button onclick="searchDonors()"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="table-container">
+                    <table id="donorsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Blood Group</th>
+                                <th>Location</th>
+                                <th>Last Donation</th>
+                                <th>Contact</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="donorsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inventory -->
+        <section id="inventory" class="section">
+            <div class="container">
+                <h2>Blood Inventory</h2>
+                <div class="inventory-grid" id="inventoryGrid">
+                </div>
+                <button class="btn-add" onclick="showAddInventoryModal()">+ Add Stock</button>
+            </div>
+        </section>
+
+        <!-- Requests -->
+        <section id="requests" class="section">
+            <div class="container">
+                <h2>Blood Requests</h2>
+                <div class="requests-list" id="requestsList">
+                </div>
+                <button class="btn-add" onclick="showAddRequestModal()">+ New Request</button>
+            </div>
+        </section>
+
+        <!-- Register Donor -->
+        <section id="register" class="section">
+            <div class="container">
+                <h2>Register New Donor</h2>
+                <form id="donorForm" class="form-container">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="donorName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Blood Group</label>
+                        <select id="bloodGroup" required>
+                            <option value="">Select Blood Group</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" id="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label>Weight (kg)</label>
+                        <input type="number" id="weight" min="40" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Register Donor</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="addInventoryModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Add Blood Stock</h3>
+            <form id="inventoryForm">
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select id="invBloodGroup" required>
+                        <option value="">Select</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Units</label>
+                    <input type="number" id="invUnits" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>Components (Multi-select)</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="components" value="Whole Blood"> Whole Blood</label>
+                        <label><input type="checkbox" name="components" value="Platelets"> Platelets</label>
+                        <label><input type="checkbox" name="components" value="Plasma"> Plasma</label>
+                        <label><input type="checkbox" name="components" value="RBC"> RBC</label>
+                        <label><input type="checkbox" name="components" value="Cryo"> Cryoprecipitate</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Batch #</label>
+                    <input type="text" id="batchNumber" placeholder="e.g., BB-2024-001">
+                </div>
+                <div class="form-group">
+                    <label>Donor ID</label>
+                    <input type="text" id="donorId" placeholder="Optional">
+                </div>
+                <div class="form-group">
+                    <label>Test Results</label>
+                    <select id="testResults">
+                        <option value="pass">All Tests Passed</option>
+                        <option value="pending">Tests Pending</option>
+                        <option value="fail">Tests Failed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="date" id="invExpiry" required>
+                </div>
+                <button type="submit" class="btn-primary">Add Stock to Cloud</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="addRequestModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>New Blood Request</h3>
+            <form id="requestForm">
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text" id="patientName" required>
+                </div>
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select id="reqBloodGroup" required>
+                        <option value="">Select</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Units Required</label>
+                    <input type="number" id="reqUnits" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>Hospital</label>
+                    <input type="text" id="hospital" required>
+                </div>
+                <div class="form-group">
+                    <label>Area/Location</label>
+                    <input type="text" id="requestLocation" placeholder="City/Area" required>
+                </div>
+                <div class="form-group">
+                    <label>Urgency</label>
+                    <select id="urgency" required>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 DK.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
